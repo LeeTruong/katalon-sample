@@ -9,14 +9,4 @@
       <initValue>'https://katalon-demo-cura.herokuapp.com/'</initValue>
       <name>env</name>
    </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'John Doe'</initValue>
-      <name>userName</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'ThisIsNotAPassword'</initValue>
-      <name>password</name>
-   </GlobalVariableEntity>
 </GlobalVariableEntities>

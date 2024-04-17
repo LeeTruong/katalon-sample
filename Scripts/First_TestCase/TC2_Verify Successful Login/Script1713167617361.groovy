@@ -30,3 +30,5 @@ WebUI.sendKeys(findTestObject('Page_CURA Login/Page_CURA Login Form/input_Passwo
 
 WebUI.click(findTestObject('Page_CURA Login/Page_CURA Login Form/button_Login'))
 
+WebUI.takeFullPageScreenshot()
+

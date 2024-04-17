@@ -17,25 +17,23 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
-'Verify Successful Open Login Form'
-WebUI.callTestCase(findTestCase('First_TestCase/TC1_Verify Successful Open Login'), [:], FailureHandling.STOP_ON_FAILURE)
+response = WS.sendRequest(findTestObject('API_Helper/PostPet'), FailureHandling.STOP_ON_FAILURE)
 
-'Input User Name'
-WebUI.sendKeys(findTestObject('Page_CURA Login/Page_CURA Login Form/input_Username_username'), findTestData('Login Data').getValue(
-        1, 2))
+actual_id = WS.getElementPropertyValue(response, 'id')
 
-'Input Password'
-WebUI.sendKeys(findTestObject('Page_CURA Login/Page_CURA Login Form/input_Password_password'), findTestData('Login Data').getValue(
-        2, 2))
+response_delete = WS.sendRequest(findTestObject('API_Helper/DeletePet', [('petID') : actual_id]))
 
-'Click Login Button'
-WebUI.click(findTestObject('Page_CURA Login/Page_CURA Login Form/button_Login'))
+actual_message = WS.getElementPropertyValue(response_delete, 'message')
 
-'Get Error message'
-actual_error_msg = WebUI.getText(findTestObject('Page_CURA Login/Page_CURA Error message/p_Error message'))
+printf('actual_message', actual_message)
 
-'Verify Error Message is displayed correctly when input wrong username and password\n'
-WebUI.verifyEqual(actual_error_msg, findTestData('Login Data').getValue(3, 2))
+WS.verifyResponseStatusCode(response_delete, 200)
 
-WebUI.takeElementScreenshot(findTestObject('Page_CURA Login/Page_CURA Error message/p_Error message'))
+WS.verifyElementPropertyValue(response_delete, 'message', actual_id)
+
+response_get = WS.sendRequest(findTestObject('API_Helper/GetpetbyID', [('petID') : actual_id]))
+
+WS.verifyResponseStatusCode(response_get, 404)
+
+WS.verifyElementPropertyValue(response_get, 'message', 'Pet not found')
 
